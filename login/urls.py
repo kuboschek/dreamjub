@@ -6,7 +6,7 @@ from oauth2_provider import views as oauth_views
 from social_django import urls as saml_urls
 
 urlpatterns = [
-    url(r'^$', views.login_redirect, name='login'),
+    url(r'^$', views.magic_login, name='login'),
     url(r'^saml/', include(saml_urls)),
     url(r'^saml/metadata/$', views.saml_metadata),
     url(r'^o/', include([

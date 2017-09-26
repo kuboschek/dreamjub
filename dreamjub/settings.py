@@ -49,7 +49,10 @@ MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+
     'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'sesame.middleware.AuthenticationMiddleware',
+
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -112,8 +115,9 @@ STATIC_URL = '/static/'
 # Custom login backend
 AUTHENTICATION_BACKENDS = [
     'oauth2_provider.backends.OAuth2Backend',
-    'social_core.backends.saml.SAMLAuth',
-    'login.backend.LDAPBackend',
+#    'social_core.backends.saml.SAMLAuth',
+#    'login.backend.LDAPBackend',
+    'sesame.backends.ModelBackend',
     'django.contrib.auth.backends.ModelBackend'
 ]
 
@@ -221,3 +225,13 @@ SOCIAL_AUTH_SAML_ENABLED_IDPS = {
         "x509cert": "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"
     },
 }
+
+# For the magic link login
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "smtp.udag.de"
+EMAIL_HOST_USER = "noreply@jacobs.university"
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = True
+
+SESAME_TOKEN_NAME = "thanks_irc_it"
+SESAME_MAX_AGE = 1800
